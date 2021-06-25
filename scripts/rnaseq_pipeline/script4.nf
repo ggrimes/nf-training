@@ -22,7 +22,7 @@ log.info """\
  * define the `index` process that create a binary index
  * given the transcriptome file
  */
-process index {
+process INDEX {
 
     input:
     path transcriptome
@@ -42,7 +42,7 @@ process index {
  * Run Salmon to perform the quantification of expression using
  * the index and the matched read files
  */
-process quantification {
+process QUANT {
 
     input:
     path index
@@ -62,6 +62,6 @@ Channel
     .set { read_pairs_ch }
 
 workflow {
-  index_ch=index(params.transcriptome)
-  quant_ch=quantification(index_ch,read_pairs_ch)
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
 }

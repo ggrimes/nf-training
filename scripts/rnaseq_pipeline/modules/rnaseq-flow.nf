@@ -1,20 +1,20 @@
-/* 
- * include requires tasks 
+/*
+ * include requires tasks
  */
-include { index; quantification; fastqc; multiqc  } from './rnaseq-tasks.nf'
- 
-/* 
- * define the data analysis workflow 
+include { INDEX; QUANT; FASTQC; MULTIQC  } from './rnaseq-tasks.nf'
+
+/*
+ * define the data analysis workflow
  */
-workflow rnaseqFlow {
+workflow RNASEQFLOW {
     // required inputs
     take:
       transcriptome
       read_files
     // workflow implementation
     main:
-      index(transcriptome)
-      quantification(index.out, read_files)
-      fastqc(read_files)
-      multiqc( quantification.out.mix(fastqc.out).collect() )
+      INDEX(transcriptome)
+      QUANT(INDEX.out, read_files)
+      FASTQC(read_files)
+      MULTIQC( QUANT.out.mix(FASTQC.out).collect() )
 }

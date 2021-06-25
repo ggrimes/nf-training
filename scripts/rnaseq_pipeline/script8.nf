@@ -22,9 +22,9 @@ log.info """\
          .stripIndent()
 
 
-include { rnaseqFlow } from './modules/rnaseq-flow.nf'
+include { RNASEQFLOW } from './modules/rnaseq-flow.nf'
 
 workflow {
     read_pairs_ch = Channel .fromFilePairs( params.reads, checkIfExists:true )
-    rnaseqFlow( params.transcriptome, read_pairs_ch )
+    RNASEQFLOW( params.transcriptome, read_pairs_ch )
 }

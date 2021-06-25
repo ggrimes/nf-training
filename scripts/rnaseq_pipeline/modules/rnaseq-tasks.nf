@@ -1,18 +1,18 @@
 params.outdir = 'results'
 
-/* 
- * define the `index` process that create a binary index 
+/*
+ * define the `index` process that create a binary index
  * given the transcriptome file
  */
-process index {
-    
+process INDEX {
+
     input:
-    path transcriptome 
-     
+    path transcriptome
+
     output:
     path 'index'
 
-    script:       
+    script:
     """
     salmon index --threads $task.cpus -t $transcriptome -i index
     """
@@ -22,15 +22,15 @@ process index {
  * Run Salmon to perform the quantification of expression using
  * the index and the matched read files
  */
-process quantification {
-     
+process QUANT {
+
     input:
     path index
     tuple val(pair_id), path(reads)
- 
+
     output:
     path(pair_id)
- 
+
     script:
     """
     salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
@@ -40,7 +40,7 @@ process quantification {
 /*
  * Run fastQC to check quality of reads files
  */
-process fastqc {
+process FASTQC {
     tag "FASTQC on $sample_id"
 
     input:
@@ -53,14 +53,14 @@ process fastqc {
     """
     mkdir fastqc_${sample_id}_logs
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
-    """  
+    """
 }
 
 /*
  * Create a report using multiQC for the quantification
  * and fastqc processes
  */
-process multiqc {
+process MULTIQC {
     publishDir params.outdir, mode:'copy'
 
     input:

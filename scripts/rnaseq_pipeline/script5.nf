@@ -20,10 +20,10 @@ log.info """\
 
 
 /*
- * define the `index` process that create a binary index
+ * define the `INDEX` process that create a binary index
  * given the transcriptome file
  */
-process index {
+process INDEX {
 
     input:
     path transcriptome
@@ -41,7 +41,7 @@ process index {
  * Run Salmon to perform the quantification of expression using
  * the index and the matched read files
  */
-process quantification {
+process QUANT {
     tag "quantification on $pair_id"
     publishDir params.outdir, mode:'copy'
 
@@ -66,7 +66,7 @@ process quantification {
 /*
  * Run fastQC to check quality of reads files
  */
-process fastqc {
+process FASTQC {
     tag "FASTQC on $sample_id"
     cpus 1
 
@@ -89,7 +89,6 @@ Channel
     .set { read_pairs_ch }
 
 workflow {
-  index_ch=index(params.transcriptome)
-  quant_ch=quantification(index_ch,read_pairs_ch)
-  fastqc()
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
 }
