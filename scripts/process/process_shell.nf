@@ -7,9 +7,10 @@ process INDEX {
 
   shell:
   '''
-  salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer !{params.kmer}
+  #set bash variable KMERSIZE
+  KMERSIZE=!{params.kmer}
+  salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer ${KMERSIZE}
   echo "kmer size is  !{params.kmer}"
-  echo "index is located in" $PWD
   '''
 }
 
