@@ -2,7 +2,7 @@
 nextflow.enable.dsl=2
 
  process INDEX {
-  publishDir "results/index", mode: "copy"
+  publishDir "results", mode: "copy"
   input:
   path transcriptome
 
