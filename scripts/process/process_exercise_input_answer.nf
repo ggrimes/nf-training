@@ -11,7 +11,7 @@ process FASTQC {
    ls -1 fastqc_out
    """
 }
-reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
 
 workflow {
   FASTQC(reads_ch)
