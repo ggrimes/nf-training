@@ -3,8 +3,8 @@ nextflow.enable.dsl=2
 
 process COMBINE {
  input:
- each transcriptome from transcriptome_ch
- path kmer from kmer_ch
+ each transcriptome
+ path kmer
  script:
   """
   echo salmon index -t $transcriptome -i index -k $kmer
