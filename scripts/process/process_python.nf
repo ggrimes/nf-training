@@ -9,7 +9,7 @@ process PYSTUFF {
   reads = 0
   bases = 0
 
-  with gzip.open('data/yeast/reads/ref1_1.fq.gz', 'rb') as read:
+  with gzip.open('${projectDir}/data/yeast/reads/ref1_1.fq.gz', 'rb') as read:
       for id in read:
           seq = next(read)
           reads += 1
