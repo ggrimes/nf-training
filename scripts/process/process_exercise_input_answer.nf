@@ -8,6 +8,7 @@ process FASTQC {
    """
    mkdir fastqc_out
    fastqc -o fastqc_out ${reads}
+   ls -1 fastqc_out
    """
 }
 reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
