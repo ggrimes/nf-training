@@ -1,36 +1,40 @@
+//workflow_exercise.nf
+
 nextflow.enable.dsl=2
 
-params.bam = 'data/yeast/bams/*.bam'
+params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 
-process FLAGSTAT {
+process FASTQC {
   input:
-  path bam
+  tuple val(sample_id), path(reads)
 
   output:
-  path "${bam}.flagstats.txt"
+  path "fastqc_${sample_id}_logs/*.zip"
 
   script:
   //flagstat simple stats on bam file
   """
-  samtools flagstat ${bam} > ${bam}.flagstats.txt
+  mkdir fastqc_${sample_id}_logs
+  fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
   """
 }
 
-process MERGEFLAGSTAT {
-  publishDir "results/flagstats", mode:"copy"
+process PARSEZIP {
+  publishDir "results/fqpass", mode:"copy"
   input:
   path flagstats
 
   output:
-  path 'flagstats.txt'
+  path 'pass_basic.txt'
 
   script:
   """
-  cat ${flagstats}|grep 'mapped (' > flagstats.txt
+  for zip in *.zip; do zipgrep 'Basic Statistics' \$zip|grep 'summary.txt'; done > pass_basic.txt
   """
 }
 
-bam_ch = channel.fromPath(params.bams)
+read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
+
 workflow {
-  //connect process FASTQC and PARSEZIP
+    //connect process FASTQC and PARSEZIP
 }
