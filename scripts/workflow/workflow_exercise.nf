@@ -32,5 +32,5 @@ process MERGEFLAGSTAT {
 
 bam_ch = channel.fromPath(params.bams)
 workflow {
-  MERGEFLAGSTAT(FLAGSTAT(bam_ch)).view()
+  //connect process FASTQC and PARSEZIP
 }
