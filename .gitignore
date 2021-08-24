@@ -1,2 +1,5 @@
-work*
+work
 .nextflow*
+results*
+data/*
+.DS_Store
