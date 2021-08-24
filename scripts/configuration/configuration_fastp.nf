@@ -47,6 +47,6 @@ process NUM_LINES {
     """
     printf '${read} '
     gunzip -c ${read} | wc -l
-    fastp -i ${read}  -o out.fq|grep total_reads -B1
+    fastp -i ${read}  -o out.fq 2>&1
     """
 }
